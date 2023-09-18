@@ -19,11 +19,8 @@ const BasicTableHeroes: React.FC = () => {
   const heroes = useAppSelector((state) => state.heroes.listOfHeroes);
   const info = useAppSelector((state) => state.heroes.infoPage);
   const isLoading = useAppSelector((state) => state.heroes.isLoading);
-  // const isSelectedHero = useAppSelector((state) => state.heroes.isSelectedHero);
-  // const selectedHero = useAppSelector((state) => state.heroes.selectedHero);
 
   const dispatch = useDispatch<AppDispatch>();
-  // const showCardInfo = (id: number) => dispatch(getHeroByIdAsync(id));
 
   useEffect(() => {
     dispatch(getListOfHeroesAsync(pageInTable + 1));

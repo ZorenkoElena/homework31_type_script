@@ -8,10 +8,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import TableHead from '@mui/material/TableHead';
 
+import './component.css';
+
 import TablePagination from '@mui/material/TablePagination';
 import Container from '@mui/material/Container';
 
-// import HeroWindow from './heroWindow';
+import HeroWindow from './heroWindow';
 import { IHero } from '../store/slices/heroes';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -39,6 +41,16 @@ interface IHeroesTable {
 }
 
 const HeroesTable: React.FC<IHeroesTable> = (props: IHeroesTable) => {
+  const [isSelectedHero, setIsSelectedHero] = React.useState<boolean>(false);
+  const [selectedHero, setSelectedHero] = React.useState<IHero | null>(null);
+
+  const showCardInfo = (id: number) => {
+    const hero = props.heroes.find((item) => item.id === id);
+    console.log('hero', hero);
+    setIsSelectedHero(true);
+    setSelectedHero(hero as IHero);
+  };
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -51,7 +63,8 @@ const HeroesTable: React.FC<IHeroesTable> = (props: IHeroesTable) => {
           mt: 4,
         }}
       >
-        {/* {props.isSelectedHero && <HeroWindow />} */}
+        {isSelectedHero && <HeroWindow selectedHero={selectedHero} closeWindow={() => setIsSelectedHero(false)} />}
+
         <TableContainer>
           <Table size="small" aria-label="a dense table">
             <TableHead>
@@ -65,10 +78,7 @@ const HeroesTable: React.FC<IHeroesTable> = (props: IHeroesTable) => {
             <TableBody>
               {props.heroes &&
                 props.heroes.map((hero) => (
-                  <StyledTableRow
-                    key={`hero-card-${hero.id}`}
-                    // onClick={() => showCardInfo(hero.id)}
-                  >
+                  <StyledTableRow key={`hero-card-${hero.id}`} onClick={() => showCardInfo(hero.id)}>
                     <StyledTableCell>{hero.id}</StyledTableCell>
                     <StyledTableCell align="left">{hero.name}</StyledTableCell>
                     <StyledTableCell align="left">{hero.status}</StyledTableCell>
